@@ -1,0 +1,60 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest
+      - run: pytest -q
+
+  # The kit scans itself: the real config must pass, the risky fixture must fail.
+  self-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan this repository (fixtures excluded)
+        uses: ./
+        with:
+          path: .
+          exclude: examples
+          fail-on: high
+      - name: Risky fixture must be caught
+        run: |
+          if python3 scanner/agent_config_scan.py examples/risky-repo; then
+            echo "Scanner missed the risky fixture" && exit 1
+          fi
+      - name: Produce SARIF for the risky fixture (demo of code scanning output)
+        uses: ./
+        with:
+          path: examples/risky-repo
+          fail-on: none
+          sarif-file: risky-demo.sarif
+      - name: Keep the demo report as a build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: risky-demo-sarif
+          path: risky-demo.sarif
+
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform fmt -check
+      - run: terraform init -backend=false
+      - run: terraform validate

@@ -1,0 +1,9 @@
+region             = "us-west-2"
+name_prefix        = "ai-agents"
+monthly_budget_usd = 100
+daily_budget_usd   = 10
+alert_emails       = ["you@example.com"]
+
+agent_trusted_principal_arns = [
+  "arn:aws:iam::111122223333:role/your-ci-or-sso-role",
+]

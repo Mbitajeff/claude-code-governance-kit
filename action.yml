@@ -1,0 +1,46 @@
+name: "agent-config-scan"
+description: "Scan AI coding agent config (CLAUDE.md, .claude/, MCP) for prompt injection, permission bypass, secrets and risky hooks."
+author: "Jeff Mbita"
+branding:
+  icon: "shield"
+  color: "orange"
+
+inputs:
+  path:
+    description: "Directory to scan"
+    required: false
+    default: "."
+  fail-on:
+    description: "Fail the job on findings at or above this severity: high, medium, low or none"
+    required: false
+    default: "high"
+  exclude:
+    description: "Space-separated directory names to skip"
+    required: false
+    default: ""
+  sarif-file:
+    description: "Where to write the SARIF report (upload it with github/codeql-action/upload-sarif)"
+    required: false
+    default: "agent-config-scan.sarif"
+
+outputs:
+  sarif-file:
+    description: "Path to the SARIF report"
+    value: ${{ inputs.sarif-file }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run agent-config-scan
+      shell: bash
+      env:
+        SCAN_PATH: ${{ inputs.path }}
+        FAIL_ON: ${{ inputs.fail-on }}
+        EXCLUDE: ${{ inputs.exclude }}
+        SARIF_FILE: ${{ inputs.sarif-file }}
+      run: |
+        set -euo pipefail
+        args=()
+        for d in $EXCLUDE; do args+=(--exclude "$d"); done
+        python3 "$GITHUB_ACTION_PATH/scanner/agent_config_scan.py" "$SCAN_PATH" \
+          --format sarif --output "$SARIF_FILE" --fail-on "$FAIL_ON" "${args[@]}"

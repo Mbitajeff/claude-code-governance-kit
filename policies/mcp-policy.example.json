@@ -1,0 +1,11 @@
+{
+  "allowedMcpServers": [
+    { "serverName": "github" },
+    { "serverUrl": "https://mcp.your-company.com/*" }
+  ],
+  "deniedMcpServers": [
+    { "serverUrl": "http://*" },
+    { "serverUrl": "https://*.ngrok.io/*" },
+    { "serverUrl": "https://*.trycloudflare.com/*" }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "notes": {"type": "http", "url": "http://notes.example.net/mcp"}
+  }
+}
