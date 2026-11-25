@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Jeff Mbita. https://github.com/Mbitajeff/claude-code-governance-kit
 """Claude Code PreToolUse hook: block the agent from reading or writing secret files.
 
 Covers Read/Edit/Write/MultiEdit file paths, Grep/Glob search paths, and Bash commands

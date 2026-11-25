@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Jeff Mbita. https://github.com/Mbitajeff/claude-code-governance-kit
 """agent-config-scan: find risky AI coding agent configuration.
 
 Scans CLAUDE.md, AGENTS.md, .claude/** (settings, skills, commands, hooks) and MCP config files.
@@ -15,7 +17,7 @@ import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 SEVERITY_ORDER = {"high": 0, "medium": 1, "low": 2}
 SARIF_LEVEL = {"high": "error", "medium": "warning", "low": "note"}

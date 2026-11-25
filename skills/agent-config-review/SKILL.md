@@ -9,8 +9,9 @@ Agent configuration is part of the execution surface. Review it with the same ca
 
 ## Steps
 
-1. Run the scanner on the target directory (default: the repository root):
-   `python3 .claude/skills/agent-config-review/scripts/agent_config_scan.py <target> --fail-on none`
+1. Run the scanner that ships in this skill's `scripts/` folder against the target directory (default: the repository root):
+   `python3 <this-skill-folder>/scripts/agent_config_scan.py <target> --fail-on none`
+   It needs only Python 3.9+ and the standard library. It reads files and prints a report; it never modifies anything or makes network calls.
 2. For each finding, read the file and confirm it is a real risk, not a false positive.
 3. Only if you need the reasoning behind a rule, read `reference.md` in this skill folder.
 4. Report findings as a table: severity, rule ID, file:line, issue, recommended fix.

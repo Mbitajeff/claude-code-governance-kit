@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Jeff Mbita. https://github.com/Mbitajeff/claude-code-governance-kit
 """Claude Code PostToolUse hook: append an audit record for every agent action that changes things.
 
 Writes one JSON line per Edit/Write/MultiEdit/Bash call: timestamp, session, tool, target and cwd.

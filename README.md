@@ -41,11 +41,11 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: Mbitajeff/claude-code-governance-kit@v0.1.0
+      - uses: actions/checkout@v5
+      - uses: Mbitajeff/claude-code-governance-kit@v0.1.1
         with:
           fail-on: high
-      - uses: github/codeql-action/upload-sarif@v3
+      - uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: agent-config-scan.sarif
@@ -188,6 +188,10 @@ The kit uses its own controls: this repo's [`.claude/settings.json`](.claude/set
 ## Background
 
 I built this after hands-on time running Claude Code on Amazon Bedrock with SSO-based access, per-group model restrictions, spend limits and usage telemetry. Seeing those controls work, and seeing which ones only an administrator could set, made the gap clear: the config files inside each repository needed guardrails of their own. Everything here is my own work, built from the public [Claude Code documentation](https://docs.claude.com/en/docs/claude-code/overview) and [AWS documentation](https://docs.aws.amazon.com/bedrock/).
+
+## Security and verification
+
+Report vulnerabilities privately, see [SECURITY.md](SECURITY.md). Release checksums are in [CHECKSUMS.txt](CHECKSUMS.txt); verify any copy you got outside this repository against them. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
